@@ -1,0 +1,14 @@
+body {
+  padding: 0;
+  margin: 0;
+}
+
+.wrap {
+  display: flex;
+  flex-direction: row;
+}
+
+.preview {
+  width: 50vw;
+  padding: 20px;
+}
