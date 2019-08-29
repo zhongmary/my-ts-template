@@ -84,7 +84,7 @@ const Field: FC<FieldProps> = ({
     );
   }
 
-  if (type === 'array') {
+  if (type === 'array' && !get(ui, 'widget')) {
     if (!items) {
       return null;
     }

@@ -1,11 +1,19 @@
 import React from 'react';
 import { Checkbox, TextArea, Button } from '@msfe/beast-core';
 
+const options = [
+  { label: 'react', value: 1 },
+  { label: <div>vue</div>, value: 8 },
+  { label: <div>jq</div>, value: false, disabled: true },
+  { label: <div>angular</div>, value: 'angular' },
+];
+
+
 const config: ISchema = {
   type: 'object',
   initialValues: {
-    mallType: 1,
-    modifyReason: '',
+    radio: 1,
+    textarea: '',
   },
   style: {
     width: '650px',
@@ -22,51 +30,40 @@ const config: ISchema = {
         widget: <h1 style={{ textAlign: 'center' }}>custom config</h1>,
       },
     },
-    'mallType': {
+    'radio': {
       type: 'number',
-      label: '店铺类型',
+      label: 'Radio',
       required: true,
       fieldWidth: 400,
       ui: {
         widget: 'radio',
         options: [
-          { label: '个人店铺', value: 1 },
-          { label: '企业店铺', value: 2 },
+          { label: 'One', value: 1 },
+          { label: 'Two', value: 2 },
         ],
       },
     },
-    'mallId': {
+    'input': {
       type: 'string',
-      label: '店铺编号',
+      label: 'Input',
       required: true,
       fieldWidth: 400,
       validateOnBlur: true,
       ui: {
-        placeholder: '请输入店铺编号',
+        placeholder: '请输入...',
         format: (val: string) => val.replace(/[^\d]/, ''),
         autocomplete: 'off',
       },
     },
-    mallName: {
+    'textarea': {
       type: 'string',
-      label: '店铺名称',
-      required: true,
-      fieldWidth: 400,
-      validateOnBlur: true,
-      ui: {
-        placeholder: '请输入店铺名称',
-        autocomplete: 'off',
-      },
-    },
-    modifyReason: {
-      type: 'string',
-      label: '修改原因',
+      label: 'Textarea',
       validateOnBlur: true,
       required: true,
       fieldWidth: 400,
       validate: v => {
         if (v.length === 0) {
-          return '修改原因不能为空';
+          return 'Textarea不能为空';
         }
         if (v.length > 200) {
           return '不得超过200字';
@@ -74,64 +71,81 @@ const config: ISchema = {
       },
       ui: {
         widget: TextArea,
-        placeholder: '请简单描述下原因',
+        placeholder: '请简单描述下...',
         maxLength: 200,
       },
     },
-    tempToken: {
+    'tofu': {
       type: 'string',
-      label: '人脸识别',
+      label: 'Tofu',
       required: true,
       fieldWidth: 400,
-      hide: (formState: any) => {
-        return !formState.values.mallId;
+      validateOnBlur: true,
+      ui: {
+        widget: 'tofu',
+        type: 'password',
       },
     },
-    idCardFrontalPic: {
+    'checkbox': {
       type: 'string',
-      label: '身份证正面照',
-      fieldWidth: 130,
-      validateOnChange: true,
-      hide: (formState: any) => {
-        return formState.values && formState.values.mallType !== 1;
-      },
+      label: 'Checkbox',
+      required: true,
+      fieldWidth: 400,
       ui: {
+        widget: 'checkbox',
+        options,
+      },
+      hide: (formState: any) => {
+        return !formState.values.input;
+      },
+    },
+    'switch': {
+      type: 'boolean',
+      label: 'Switch',
+      alias: { value: 'checked' },
+    },
+    'select': {
+      type: 'string',
+      label: 'Select',
+      fieldWidth: 300,
+      validateOnBlur: true,
+      required: true,
+      ui: {
+        widget: 'select',
+        placeholder: '请输入...',
+        options,
+      },
+    },
+    'date': {
+      type: 'string',
+      label: 'DatePicker',
+      required: true,
+      validateOnBlur: true,
+      fieldWidth: 300,
+      ui: {
+        widget: 'date',
+      },
+    },
+    'dateRange': {
+      type: 'array',
+      label: 'RangePicker',
+      ui: {
+        widget: 'dateRange',
+        width: 300,
+      },
+    },
+    'image': {
+      type: 'string',
+      label: 'Image',
+      required: true,
+      validateOnBlur: true,
+      fieldWidth: 300,
+      ui: {
+        widget: 'image',
         maxNum: 1,
-        autocomplete: 'off',
       },
     },
-    oldBindMobile: {
-      type: 'string',
-      label: '请输原绑定手机号',
-      fieldWidth: 300,
-      validateOnBlur: true,
-      required: true,
-      ui: {
-        placeholder: '请输原绑定手机号',
-        autocomplete: 'off',
-      },
-    },
-    newBindMobile: {
-      type: 'string',
-      label: '新绑定手机号',
-      required: true,
-      validateOnBlur: true,
-      fieldWidth: 300,
-      ui: {
-        autocomplete: 'off',
-      },
-    },
-    verificationCode: {
-      type: 'string',
-      label: '手机验证码',
-      required: true,
-      validateOnBlur: true,
-      fieldWidth: 300,
-      ui: {
-        autocomplete: 'off',
-      },
-    },
-    hasKnown: {
+    'customCheck': {
       type: 'boolean',
       label: '',
       alias: { value: 'checked' },
@@ -140,7 +154,7 @@ const config: ISchema = {
         widget: Checkbox,
         label: (
           <span style={{ color: '#666666', lineHeight: 1.3 }}>
-            上述店铺信息修改系本人/我司真实意愿，本人/我司自愿承担由此产生的一切经济和法律责任
+            请勾选协议
           </span>
         ),
       },
