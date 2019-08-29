@@ -1,38 +1,29 @@
 import React, { Component, ErrorInfo } from "react";
 
-interface IErrorBoundaryState {
-  error: Error | null;
-  errorInfo: ErrorInfo | null;
-}
+import { IError } from './App';
 
 interface IErrorBoundaryProps {
   hasError: boolean;
-  onError: () => void;
+  err: IError;
+  onError: (e: IError) => void;
 }
 
-class ErrorBoundary extends Component<IErrorBoundaryProps, IErrorBoundaryState> {
-  readonly state: IErrorBoundaryState = {
-    error: null,
-    errorInfo: null,
-  };
-
+class ErrorBoundary extends Component<IErrorBoundaryProps> {
   componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-    // Catch errors in any components below and re-render with error message
-    this.setState({
+    this.props.onError({
       error: error,
       errorInfo: errorInfo,
     });
-    this.props.onError();
   }
 
   render() {
-    if (this.props.hasError && this.state.errorInfo) {
+    if (this.props.hasError && this.props.err.errorInfo) {
       // Error path
       return (
         <pre>
-          {this.state.error && this.state.error.message}
+          {this.props.err.error && this.props.err.error.message}
           <br />
-          {this.state.errorInfo.componentStack}
+          {this.props.err.errorInfo.componentStack}
         </pre>
       );
     }

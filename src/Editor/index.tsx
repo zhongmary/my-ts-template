@@ -1,5 +1,7 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useRef, useLayoutEffect } from 'react';
 import MonacoEditor, { EditorDidMount, EditorWillMount } from 'react-monaco-editor';
+
+import extralib from './extralib';
 
 interface IEditorProps {
   code: string;
@@ -7,57 +9,32 @@ interface IEditorProps {
 }
 
 const Editor: FC<IEditorProps> = ({ code, onChange }) => {
+  const monacoRef = useRef<MonacoEditor>(null);
   const options = {
     selectOnLineNumbers: true,
   };
 
+  useLayoutEffect(() => {
+    window.onresize = () => {
+      (monacoRef.current!.editor as any).layout();
+    };
+  }, []);
+
   const handleEditorWillMount: EditorWillMount = useCallback((monaco) => {
-    monaco.languages.typescript.typescriptDefaults.addExtraLib(
-      'export declare function add(a: number, b: number): number',
-      'file:///node_modules/@types/math/index.d.ts'
-    );
 
-    monaco.languages.typescript.typescriptDefaults.addExtraLib(
-      `declare type SFSchemaType = 'number' | 'integer' | 'string' | 'boolean' | 'object' | 'array';
-
-      decalre const React: any = null;
-
-      interface ISchema {
-        type?: SFSchemaType;
-        getForm?: (api: any, state: any) => void;
-        onSubmit: ((values: object, desiredValues?: object | undefined) => void) | undefined;
-        properties: {
-          [key: string]: {
-            type: SFSchemaType;
-            label: string;
-            required?: boolean;
-            validateOnChange?: boolean;
-            validate?: ((value: any, values?: object | undefined) => string | Promise<any> | undefined) | undefined;
-            ui?: {
-              widget?: string | any;
-              [key: string]: any;
-            };
-          };
-        };
-        actions: (api: any, state: any) => any;
-      }
-      `,
-      'global.d.ts'
-    );
-
-    monaco.languages.typescript.typescriptDefaults.addExtraLib(
-      `export declare const InputTofu: any;
-       export declare const TextArea: any;
-       export declare const Button: any;
-      `,
-      'file:///node_modules/@msfe/beast-core/index.d.ts'
-    );
+    extralib.forEach(lib => {
+      monaco.languages.typescript.typescriptDefaults.addExtraLib(
+        lib.content,
+        lib.filePath,
+      );
+    });
 
     monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
       target: monaco.languages.typescript.ScriptTarget.ES2016,
       allowNonTsExtensions: true,
       moduleResolution: monaco.languages.typescript.ModuleResolutionKind.NodeJs,
-      module: monaco.languages.typescript.ModuleKind.CommonJS,
+      module: monaco.languages.typescript.ModuleKind.ESNext,
+      allowSyntheticDefaultImports: true,
       noEmit: true,
       typeRoots: ["node_modules/@types"],
       jsx: monaco.languages.typescript.JsxEmit.React,
@@ -82,7 +59,8 @@ const Editor: FC<IEditorProps> = ({ code, onChange }) => {
 
   return (
     <MonacoEditor
-      width="50vw"
+      ref={monacoRef}
+      width="100%"
       height="100vh"
       language="typescript"
       theme="vs-dark"

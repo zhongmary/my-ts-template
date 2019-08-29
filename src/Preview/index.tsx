@@ -1,25 +1,37 @@
-import React, { FC, useCallback, memo } from 'react';
+import React, { FC, useCallback, memo, useMemo } from 'react';
 import Form from './Form';
-import { Input, InputTofu, TextArea, RadioGroup, CheckboxGroup, Select, DatePicker, RangePicker, Button } from '@msfe/beast-core';
+import * as Beast from '@msfe/beast-core';
 import { getConfig } from '../utils';
 
 interface IPreivewProps {
   code: string;
+  isHooks?: boolean;
+  onError: (err: Error) => void;
 }
 
-const Preivew: FC<IPreivewProps> = ({ code }) => {
+const Preivew: FC<IPreivewProps> = ({ isHooks = false, code, onError }) => {
 
   const config: any = useCallback(() => {
     return getConfig({
       code,
       scope: {
-        Input, InputTofu, TextArea, RadioGroup, CheckboxGroup, Select, DatePicker, RangePicker, Button,
+        ...Beast,
       },
-    });
-  }, [code]);
+    }, onError);
+  }, [code, onError]);
+
+  const props = useMemo(
+    () => {
+      if (isHooks) {
+        return { useConfig: config() };
+      }
+      return { config: config() };
+    },
+    [isHooks, config]
+  );
 
   return (
-    <Form config={config()} />
+    <Form {...props} />
   );
 };
 
