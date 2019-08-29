@@ -76,7 +76,6 @@ const useConfig: (() => ISchema) = () => {
         fieldWidth: 400,
         validateOnBlur: true,
         ui: {
-          widget: 'input',
           placeholder: '请输入店铺名称',
           autocomplete: 'off',
         },
@@ -130,7 +129,6 @@ const useConfig: (() => ISchema) = () => {
         validateOnBlur: true,
         required: true,
         ui: {
-          widget: 'input',
           placeholder: '请输原绑定手机号',
           autocomplete: 'off',
         },

@@ -42,7 +42,6 @@ const config: ISchema = {
       fieldWidth: 400,
       validateOnBlur: true,
       ui: {
-        widget: 'input',
         placeholder: '请输入店铺编号',
         format: (val: string) => val.replace(/[^\d]/, ''),
       },
@@ -54,7 +53,6 @@ const config: ISchema = {
       fieldWidth: 400,
       validateOnBlur: true,
       ui: {
-        widget: 'input',
         placeholder: '请输入店铺名称',
       },
     },
@@ -106,7 +104,6 @@ const config: ISchema = {
       validateOnBlur: true,
       required: true,
       ui: {
-        widget: 'input',
         placeholder: '请输原绑定手机号',
       },
     },

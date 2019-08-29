@@ -108,17 +108,19 @@ const Field: FC<FieldProps> = ({
   let Comp = componentMap[type];
 
   let widgetProps = {};
-  if (ui && ui.widget) {
+  if (ui) {
     const { widget, reactiveUIProps, ...res } = ui;
     widgetProps = res;
     if (reactiveFieldProps && typeof reactiveUIProps === 'function') {
       widgetProps = { ...widgetProps, ...reactiveUIProps(formState, formApi) };
     }
 
-    if (typeof widget === 'string') {
-      Comp = componentMap[widget];
-    } else {
-      Comp = widget;
+    if (widget) {
+      if (typeof widget === 'string') {
+        Comp = componentMap[widget];
+      } else {
+        Comp = widget;
+      }
     }
   }
 
