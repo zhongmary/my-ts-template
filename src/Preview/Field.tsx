@@ -70,10 +70,17 @@ const Field: FC<FieldProps> = ({
       return null;
     }
 
+    let props = {};
+    if (ui && typeof ui === 'object') {
+      props = { ...ui };
+    }
+
     return (
-      Object.keys(items).map(item => {
-        return <Field key={`${name}.${item}`} name={`${name}.${item}`} {...items[item]} />;
-      })
+      <section {...props}>
+        {Object.keys(items).map(item => {
+          return <Field key={`${name}.${item}`} name={`${name}.${item}`} {...items[item]} />;
+        })}
+      </section>
     );
   }
 
@@ -81,27 +88,35 @@ const Field: FC<FieldProps> = ({
     if (!items) {
       return null;
     }
-    return (
-      <FieldArray
-        name={name}
-        render={(helper, formState) => {
-          if (getHelper && typeof getHelper === 'function') {
-            getHelper(helper);
-          }
 
-          return get(formState.values, name).map((_: any, i: number) => {
-            return Object.keys(items).map((item, j) => {
-              return (
-                <Field
-                  key={`${name}.${i}.${j}.${item}`}
-                  name={`${name}[${i}].${item}`}
-                  {...items[item]}
-                />
-              );
+    let props = {};
+    if (ui && typeof ui === 'object') {
+      props = { ...ui };
+    }
+
+    return (
+      <section {...props}>
+        <FieldArray
+          name={name}
+          render={(helper, formState) => {
+            if (getHelper && typeof getHelper === 'function') {
+              getHelper(helper);
+            }
+
+            return get(formState.values, name).map((_: any, i: number) => {
+              return Object.keys(items).map((item, j) => {
+                return (
+                  <Field
+                    key={`${name}.${i}.${j}.${item}`}
+                    name={`${name}[${i}].${item}`}
+                    {...items[item]}
+                  />
+                );
+              });
             });
-          });
-        }}
-      />
+          }}
+        />
+      </section>
     );
   }
 

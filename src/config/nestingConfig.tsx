@@ -62,6 +62,11 @@ const config: ISchema = {
               fieldWidth: 400,
             },
           },
+          ui: {
+            style: {
+              marginLeft: '40px',
+            },
+          },
         },
       },
       getHelper(hepler) {
