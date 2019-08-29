@@ -25,7 +25,20 @@ const FormWrap: FC<IFormProps> = ({ config, useConfig = initUseConfig }) => {
     }
   }
 
-  const { style, initialValues, properties, actions, scrollToError = true } = setting!;
+  const {
+    style,
+    initialValues,
+    properties,
+    actions,
+    scrollToError = true,
+    onSubmit,
+    onSubmitFail,
+    onSubmitSuccess,
+    validate,
+    disabled,
+    onValueChange,
+    name,
+  } = setting!;
 
   return (
     <section style={style}>
@@ -37,7 +50,13 @@ const FormWrap: FC<IFormProps> = ({ config, useConfig = initUseConfig }) => {
           formApi.current = api;
           setting.getForm && setting.getForm(api, state);
         }}
-        onSubmit={setting.onSubmit}
+        onSubmit={onSubmit}
+        onSubmitFail={onSubmitFail}
+        onSubmitSuccess={onSubmitSuccess}
+        validate={validate}
+        disabled={disabled}
+        onValueChange={onValueChange}
+        name={name}
       >
         {Object.keys(properties).map(name => {
           return <Field key={name} name={name} {...properties[name]} />;

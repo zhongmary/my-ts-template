@@ -2,6 +2,7 @@ import React from 'react';
 import { Checkbox, TextArea, Button } from '@msfe/beast-core';
 
 const useConfig: (() => ISchema) = () => {
+  const helperRef = React.useRef(null as any);
   const [showIdCardFrontalPic, setShowIdCardFrontalPic] = React.useState(false);
 
   return {
@@ -9,15 +10,21 @@ const useConfig: (() => ISchema) = () => {
     initialValues: {
       mallType: 1,
       modifyReason: '',
+      friends: [
+        { name: 'jared', age: 18 },
+        { name: 'ian', age: 19 },
+        { name: 'brent', age: 30 },
+      ],
     },
     style: {
       width: '650px',
       margin: '0 auto',
+      border: '1px solid #ccc',
     },
-    onSubmit: values => alert(JSON.stringify(values, null, 2)),
+    onSubmit: console.log,
     properties: {
       'header': {
-        type: "string",
+        type: 'custom',
         label: '',
         labelWidth: 1,
         ui: {
@@ -143,6 +150,70 @@ const useConfig: (() => ISchema) = () => {
         validateOnBlur: true,
         fieldWidth: 300,
         autocomplete: 'off',
+      },
+      friends: {
+        type: 'array',
+        items: {
+          name: {
+            type: 'string',
+            label: 'name',
+            fieldWidth: 300,
+          },
+          age: {
+            type: 'number',
+            label: 'age',
+            fieldWidth: 300,
+          },
+        },
+        getHelper(helper) { helperRef.current = helper; },
+      },
+      opearte: {
+        type: 'custom',
+        ui: {
+          widget: (
+            <div style={{ textAlign: 'center' }}>
+              <button onClick={() => helperRef.current.push({ name: '', age: '' })} type="button">
+                增加数据
+              </button>
+              <button onClick={() => helperRef.current.swap(0, 2)} style={{ marginLeft: 10 }} type="button">
+                交换index为0, 2的数据
+              </button>
+              <button onClick={() => helperRef.current.move(0, 2)} style={{ marginLeft: 10 }} type="button">
+                移动index从0到2的数据
+              </button>
+              <button
+                onClick={() => helperRef.current.insert(2, { name: '插入的值', age: '19' })}
+                style={{ marginLeft: 10 }}
+                type="button"
+              >
+                在下标2插入值
+              </button>
+              <button
+                onClick={() => helperRef.current.unshift({ name: '插入的值', age: '19' })}
+                style={{ marginLeft: 10 }}
+                type="button"
+              >
+                在数组的开头插入数据
+              </button>
+              <button onClick={() => helperRef.current.remove(2)} style={{ marginLeft: 10 }} type="button">
+                移除下标位置2的元素
+              </button>
+              <button onClick={() => helperRef.current.pop()} style={{ marginLeft: 10 }} type="button">
+                移除数组的最后一个位置数据
+              </button>
+              <button
+                onClick={() => helperRef.current.replace(2, { name: '替换位置2', age: 18 })}
+                style={{ marginLeft: 10 }}
+                type="button"
+              >
+                替换下标为2的位置的数据
+              </button>
+              <button onClick={() => helperRef.current.shift()} style={{ marginLeft: 10 }} type="button">
+                移除数组的第一个元素
+              </button>
+            </div>
+          ),
+        },
       },
       hasKnown: {
         type: 'boolean',

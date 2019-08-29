@@ -50,6 +50,7 @@ const Field: FC<FieldProps> = ({
   items,
   hide,
   reactiveFieldProps,
+  getHelper,
   ui,
   ...fieldProps
 }) => {
@@ -64,6 +65,18 @@ const Field: FC<FieldProps> = ({
     fieldProps = { ...fieldProps, ...reactiveFieldProps(formState, formApi) };
   }
 
+  if (type === 'object') {
+    if (!items) {
+      return null;
+    }
+
+    return (
+      Object.keys(items).map(item => {
+        return <Field key={`${name}.${item}`} name={`${name}.${item}`} {...items[item]} />;
+      })
+    );
+  }
+
   if (type === 'array') {
     if (!items) {
       return null;
@@ -71,7 +84,11 @@ const Field: FC<FieldProps> = ({
     return (
       <FieldArray
         name={name}
-        render={(_, formState) => {
+        render={(helper, formState) => {
+          if (getHelper && typeof getHelper === 'function') {
+            getHelper(helper);
+          }
+
           return get(formState.values, name).map((_: any, i: number) => {
             return Object.keys(items).map((item, j) => {
               return (
@@ -104,6 +121,15 @@ const Field: FC<FieldProps> = ({
       Comp = widget;
     }
   }
+
+  if (type === 'custom') {
+    if (isValidElement(Comp)) {
+      return cloneElement(Comp, widgetProps);
+    } else {
+      return <Comp {...widgetProps} />;
+    }
+  }
+
 
   return (
     <FormItem field={name} {...fieldProps}>

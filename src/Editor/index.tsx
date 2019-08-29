@@ -38,7 +38,7 @@ const Editor: FC<IEditorProps> = ({ code, onChange }) => {
       noEmit: true,
       typeRoots: ["node_modules/@types"],
       jsx: monaco.languages.typescript.JsxEmit.React,
-      jsxFactory: 'React.createElement',
+      // jsxFactory: 'React.createElement',
       reactNamespace: 'React',
       types: ['react'],
     });
@@ -61,7 +61,7 @@ const Editor: FC<IEditorProps> = ({ code, onChange }) => {
     <MonacoEditor
       ref={monacoRef}
       width="100%"
-      height="100vh"
+      height="90vh"
       language="typescript"
       theme="vs-dark"
       value={code}

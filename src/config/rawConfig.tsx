@@ -10,11 +10,12 @@ const config: ISchema = {
   style: {
     width: '650px',
     margin: '0 auto',
+    border: '1px solid #ccc',
   },
   onSubmit: values => alert(JSON.stringify(values, null, 2)),
   properties: {
     'header': {
-      type: "string",
+      type: "custom",
       label: '',
       labelWidth: 1,
       ui: {
