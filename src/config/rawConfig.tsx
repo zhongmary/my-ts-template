@@ -44,6 +44,7 @@ const config: ISchema = {
       ui: {
         placeholder: '请输入店铺编号',
         format: (val: string) => val.replace(/[^\d]/, ''),
+        autocomplete: 'off',
       },
     },
     mallName: {
@@ -54,6 +55,7 @@ const config: ISchema = {
       validateOnBlur: true,
       ui: {
         placeholder: '请输入店铺名称',
+        autocomplete: 'off',
       },
     },
     modifyReason: {
@@ -95,6 +97,7 @@ const config: ISchema = {
       },
       ui: {
         maxNum: 1,
+        autocomplete: 'off',
       },
     },
     oldBindMobile: {
@@ -105,6 +108,7 @@ const config: ISchema = {
       required: true,
       ui: {
         placeholder: '请输原绑定手机号',
+        autocomplete: 'off',
       },
     },
     newBindMobile: {
@@ -113,6 +117,9 @@ const config: ISchema = {
       required: true,
       validateOnBlur: true,
       fieldWidth: 300,
+      ui: {
+        autocomplete: 'off',
+      },
     },
     verificationCode: {
       type: 'string',
@@ -120,6 +127,9 @@ const config: ISchema = {
       required: true,
       validateOnBlur: true,
       fieldWidth: 300,
+      ui: {
+        autocomplete: 'off',
+      },
     },
     hasKnown: {
       type: 'boolean',
