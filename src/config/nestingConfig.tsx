@@ -4,7 +4,7 @@ import { Button } from '@msfe/beast-core';
 const config: ISchema = {
   type: 'object',
   style: {
-    width: '650px',
+    width: '700px',
     margin: '0 auto',
     border: '1px solid #ccc',
   },
@@ -41,36 +41,47 @@ const config: ISchema = {
     'a': {
       type: 'array',
       label: 'a',
+      labelWidth: 50,
       items: {
         a1: {
           type: 'string',
           label: 'a1',
           fieldWidth: 400,
+          labelWidth: 50,
         },
         a2: {
           type: 'array',
           label: 'a2',
+          labelWidth: 50,
           items: {
             a21: {
               type: 'string',
               label: 'a21',
-              fieldWidth: 400,
+              labelWidth: 50,
+              fieldWidth: 200,
             },
             a22: {
               type: 'string',
               label: 'a22',
-              fieldWidth: 400,
+              labelWidth: 50,
+              fieldWidth: 200,
             },
+          },
+          itemsStyle: {
+            display: 'flex',
+            flexDirection: 'row',
           },
           ui: {
             style: {
-              marginLeft: '40px',
+              border: '1px solid #eee',
+              display: 'flex',
+              flexDirection: 'column',
             },
           },
         },
       },
       getHelper(hepler) {
-        console.log(hepler);
+        // console.log(hepler);
       },
     },
     'object': {
@@ -82,23 +93,33 @@ const config: ISchema = {
     },
     'b': {
       type: 'object',
+      label: 'b',
+      labelWidth: 50,
       items: {
         b1: {
           type: 'string',
           label: 'b1',
+          labelWidth: 50,
           fieldWidth: 400,
         },
         b2: {
           type: 'object',
+          label: 'b2',
+          labelWidth: 50,
+          wrapperStyle: {
+            border: '1px solid #eee',
+          },
           items: {
             b21: {
               type: 'string',
               label: "b21",
+              labelWidth: 50,
               fieldWidth: 400,
             },
             b22: {
               type: 'number',
               label: "b22",
+              labelWidth: 50,
               fieldWidth: 400,
             },
           },
