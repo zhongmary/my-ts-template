@@ -12,7 +12,7 @@ export interface ICustomPropertie extends FormItemProps {
   items?: { [key: string]: Propertie };
   getHelper?: (helper: HelpProps) => void;
   /** 数组类型每个分组的样式 */
-  itemsStyle?: Partial<CSSProperties>;
+  itemStyle?: Partial<CSSProperties>;
   ui?: {
     widget?: string | ReactNode;
     [key: string]: any;

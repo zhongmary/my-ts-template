@@ -151,17 +151,24 @@ const useConfig: (() => ISchema) = () => {
       },
       friends: {
         type: 'array',
+        label: 'Array',
         items: {
           name: {
             type: 'string',
             label: 'name',
-            fieldWidth: 300,
+            fieldWidth: 100,
+            labelWidth: 50,
           },
           age: {
             type: 'number',
             label: 'age',
-            fieldWidth: 300,
+            fieldWidth: 100,
+            labelWidth: 50,
           },
+        },
+        itemStyle: {
+          display: 'flex',
+          flexDirection: 'row',
         },
         getHelper(helper) { helperRef.current = helper; },
       },

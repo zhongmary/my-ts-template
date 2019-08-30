@@ -52,7 +52,7 @@ const Field: FC<FieldProps> = ({
   reactiveFieldProps,
   getHelper,
   ui,
-  itemsStyle,
+  itemStyle,
   ...fieldProps
 }) => {
   const formApi = useFormApi();
@@ -108,7 +108,7 @@ const Field: FC<FieldProps> = ({
               <section {...props}>
                 {
                   get(formState.values, name).map((_: any, i: number) => (
-                    <section key={`${name}.${i}`} style={itemsStyle}>
+                    <section key={`${name}.${i}`} style={itemStyle}>
                       {
                         Object.keys(items).map((item, j) => {
                           return (

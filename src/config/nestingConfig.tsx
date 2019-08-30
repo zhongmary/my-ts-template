@@ -67,7 +67,7 @@ const config: ISchema = {
               fieldWidth: 200,
             },
           },
-          itemsStyle: {
+          itemStyle: {
             display: 'flex',
             flexDirection: 'row',
           },
@@ -76,6 +76,8 @@ const config: ISchema = {
               border: '1px solid #eee',
               display: 'flex',
               flexDirection: 'column',
+              padding: '20px',
+              paddingBottom: 0,
             },
           },
         },

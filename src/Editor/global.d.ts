@@ -61,7 +61,7 @@ declare global {
     type: SFSchemaType;
     hide?: boolean | ((state: FormState, api: FormApi) => boolean);
     items?: { [key: string]: Propertie };
-    itemsStyle?: Partial<CSSProperties>;
+    itemStyle?: Partial<CSSProperties>;
     ui?: {
       widget?: string | ReactNode;
       [key: string]: any;
