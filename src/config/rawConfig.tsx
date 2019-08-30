@@ -8,19 +8,19 @@ const options = [
   { label: <div>angular</div>, value: 'angular' },
 ];
 
-
 const config: ISchema = {
   type: 'object',
   initialValues: {
     radio: 1,
-    textarea: '',
+    input: '12345',
+    textarea: 'Somethings happen',
   },
   style: {
     width: '650px',
     margin: '0 auto',
     border: '1px solid #ccc',
   },
-  onSubmit: values => alert(JSON.stringify(values, null, 2)),
+  onSubmit: values => { console.log(values); alert('请看控制台'); },
   properties: {
     'header': {
       type: "custom",
@@ -52,6 +52,17 @@ const config: ISchema = {
       ui: {
         placeholder: '请输入...',
         format: (val: string) => val.replace(/[^\d]/, ''),
+        autocomplete: 'off',
+      },
+    },
+    'number': {
+      type: 'number',
+      label: 'Number',
+      required: true,
+      fieldWidth: 400,
+      validateOnChange: true,
+      ui: {
+        placeholder: '请输入...',
         autocomplete: 'off',
       },
     },
@@ -87,7 +98,7 @@ const config: ISchema = {
       },
     },
     'checkbox': {
-      type: 'string',
+      type: 'array',
       label: 'Checkbox',
       required: true,
       fieldWidth: 400,
@@ -120,10 +131,11 @@ const config: ISchema = {
       type: 'string',
       label: 'DatePicker',
       required: true,
-      validateOnBlur: true,
+      validateOnChange: true,
       fieldWidth: 300,
       ui: {
         widget: 'date',
+        format: "yyyy-MM-dd hh:mm:ss",
       },
     },
     'dateRange': {
@@ -137,7 +149,6 @@ const config: ISchema = {
     'image': {
       type: 'string',
       label: 'Image',
-      required: true,
       validateOnBlur: true,
       fieldWidth: 300,
       ui: {

@@ -4,9 +4,19 @@ import { Checkbox, TextArea, Button } from '@msfe/beast-core';
 const useConfig: (() => ISchema) = () => {
   const helperRef = React.useRef(null as any);
   const [showIdCardFrontalPic, setShowIdCardFrontalPic] = React.useState(false);
+  const formApi = React.useRef(null as any);
+
+  React.useEffect(() => {
+    setTimeout(() => {
+      formApi.current.setPartialValues({ mallId: 12345 });
+    }, 200);
+  }, []);
 
   return {
     type: 'object',
+    getForm(api) {
+      formApi.current = api;
+    },
     initialValues: {
       mallType: 1,
       modifyReason: '',
