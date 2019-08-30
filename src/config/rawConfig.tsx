@@ -2,10 +2,10 @@ import React from 'react';
 import { Checkbox, TextArea, Button } from '@msfe/beast-core';
 
 const options = [
-  { label: 'react', value: 1 },
-  { label: <div>vue</div>, value: 8 },
-  { label: <div>jq</div>, value: false, disabled: true },
-  { label: <div>angular</div>, value: 'angular' },
+  { label: 'React', value: 1 },
+  { label: 'Vue', value: 8 },
+  { label: 'jQuery', value: false, disabled: true },
+  { label: 'Angular', value: 'angular' },
 ];
 
 const config: ISchema = {
@@ -13,21 +13,26 @@ const config: ISchema = {
   initialValues: {
     radio: 1,
     input: '12345',
-    textarea: 'Somethings happen',
+    textarea: 'Something happen',
   },
   style: {
     width: '650px',
     margin: '0 auto',
     border: '1px solid #ccc',
   },
-  onSubmit: values => { console.log(values); alert('请看控制台'); },
+  onSubmit: values => { console.log(values); alert('提交成功，请看控制台'); },
   properties: {
     'header': {
       type: "custom",
       label: '',
       labelWidth: 1,
       ui: {
-        widget: <h1 style={{ textAlign: 'center' }}>custom config</h1>,
+        widget: <h1>custom config</h1>,
+        style: {
+          textAlign: 'center',
+          fontSize: '40px',
+          margin: '20px',
+        },
       },
     },
     'radio': {

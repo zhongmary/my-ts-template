@@ -35,7 +35,13 @@ const config: ISchema = {
     'array': {
       type: 'custom',
       ui: {
-        widget: <h1 style={{ textAlign: 'center' }}>数组</h1>,
+        widget: 'h1',
+        children: '数组',
+        style: {
+          textAlign: 'center',
+          fontSize: '40px',
+          margin: '20px',
+        },
       },
     },
     'a': {
@@ -90,7 +96,11 @@ const config: ISchema = {
       type: 'custom',
       ui: {
         widget: <h1>对象</h1>,
-        style: { textAlign: 'center' },
+        style: {
+          textAlign: 'center',
+          fontSize: '40px',
+          margin: '20px',
+        },
       },
     },
     'b': {
@@ -101,13 +111,13 @@ const config: ISchema = {
         b1: {
           type: 'string',
           label: 'b1',
-          labelWidth: 50,
+          labelWidth: 100,
           fieldWidth: 400,
         },
         b2: {
           type: 'object',
           label: 'b2',
-          labelWidth: 50,
+          labelWidth: 100,
           wrapperStyle: {
             border: '1px solid #eee',
           },
@@ -115,13 +125,13 @@ const config: ISchema = {
             b21: {
               type: 'string',
               label: "b21",
-              labelWidth: 50,
+              labelWidth: 100,
               fieldWidth: 400,
             },
             b22: {
               type: 'number',
               label: "b22",
-              labelWidth: 50,
+              labelWidth: 100,
               fieldWidth: 400,
             },
           },

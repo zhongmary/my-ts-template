@@ -38,7 +38,12 @@ const useConfig: (() => ISchema) = () => {
         label: '',
         labelWidth: 1,
         ui: {
-          widget: <h1 style={{ textAlign: 'center' }}>hooks config</h1>,
+          widget: <h1>hooks config</h1>,
+          style: {
+            textAlign: 'center',
+            fontSize: '40px',
+            margin: '20px',
+          },
         },
       },
       'mallType': {

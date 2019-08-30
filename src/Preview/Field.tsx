@@ -143,7 +143,7 @@ const Field: FC<FieldProps> = ({
 
     if (widget) {
       if (typeof widget === 'string') {
-        Comp = componentMap[widget];
+        Comp = componentMap[widget] || widget;
       } else {
         Comp = widget;
       }
