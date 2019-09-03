@@ -1,10 +1,24 @@
-import { ReactNode, CSSProperties } from 'react';
-import { FormApi, FormState, Values, Errors, Validate, HelpProps } from '@msfe/beast-form/lib/type';
-import { FormItemProps } from '@msfe/beast-core/lib/Form/interface';
+import { ReactNode, CSSProperties } from "react";
+import {
+  FormApi,
+  FormState,
+  Values,
+  Errors,
+  Validate,
+  HelpProps,
+} from "@msfe/beast-form/lib/type";
+import { FormItemProps } from "@msfe/beast-core/lib/Form/interface";
 
-export type SFSchemaType = 'number' | 'string' | 'boolean' | 'object' | 'array' | 'custom';
+export type SFSchemaType =
+  | "number"
+  | "string"
+  | "boolean"
+  | "object"
+  | "array"
+  | "custom"
+  | "wrapper";
 
-export * from '@msfe/beast-form/lib/type';
+export * from "@msfe/beast-form/lib/type";
 
 export interface ICustomPropertie extends FormItemProps {
   type: SFSchemaType;
@@ -16,12 +30,18 @@ export interface ICustomPropertie extends FormItemProps {
   ui?: {
     widget?: string | ReactNode;
     [key: string]: any;
-    reactiveUIProps?: (state: FormState, api: FormApi) => { [key: string]: any };
+    reactiveUIProps?: (
+      state: FormState,
+      api: FormApi
+    ) => { [key: string]: any };
   };
-  reactiveFieldProps?: (state: FormState, api: FormApi) => Partial<FormItemProps>;
+  reactiveFieldProps?: (
+    state: FormState,
+    api: FormApi
+  ) => Partial<FormItemProps>;
 }
 
-export type Propertie = Omit<ICustomPropertie, 'field'>
+export type Propertie = Omit<ICustomPropertie, "field">;
 
 export interface ISchema {
   /**
@@ -37,20 +57,22 @@ export interface ISchema {
   /** 初始化值 */
   initialValues: Values;
   /**
-   * 获取formState 和 formApi 
+   * 获取formState 和 formApi
    * 注意，这个并不会在初始化的时候就能获取到值，要在表单数据初始化之后才能使用
    */
   getForm?: (api: FormApi, state: FormState) => void;
   /** 提交时候调用的函数 */
-  onSubmit: ((values: Values, desiredValues?: Values | undefined) => void) | undefined;
+  onSubmit:
+  | ((values: Values, desiredValues?: Values | undefined) => void)
+  | undefined;
   /** 提交失败的回调 在提交的时候校验有错误，会触发提交失败的回调 */
   onSubmitFail?: (errors: Errors) => void;
   /** 提交成功的回调 */
   onSubmitSuccess?: () => void;
   /** 校验, 提交的时候走校验函数
-    * sync 同步的情况下，返回一个错误对象`errors`，`errors`支持合并
-    * async 异步的情况下, 抛出一个`errors`
-    */
+   * sync 同步的情况下，返回一个错误对象`errors`，`errors`支持合并
+   * async 异步的情况下, 抛出一个`errors`
+   */
   validate?: Validate;
   /** disabled 是否全局禁止 disabled 全局禁止 disabled */
   disabled?: boolean;

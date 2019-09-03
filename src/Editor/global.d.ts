@@ -55,7 +55,7 @@ interface FormItemProps {
 }
 
 declare global {
-  declare type SFSchemaType = 'number' | 'string' | 'boolean' | 'object' | 'array' | 'custom';
+  declare type SFSchemaType = 'number' | 'string' | 'boolean' | 'object' | 'array' | 'custom' | "wrapper";
 
   declare interface ICustomPropertie extends FormItemProps {
     type: SFSchemaType;

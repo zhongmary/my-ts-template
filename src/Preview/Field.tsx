@@ -1,4 +1,4 @@
-import React, { FC, isValidElement, cloneElement } from 'react';
+import React, { FC, isValidElement, cloneElement, createElement } from 'react';
 import {
   Form,
   Input,
@@ -44,17 +44,95 @@ const componentMap = {
 
 type FieldProps = Propertie & { name: string }
 
-const Field: FC<FieldProps> = ({
-  type,
-  name,
-  items,
-  hide,
-  reactiveFieldProps,
-  getHelper,
-  ui,
-  itemStyle,
-  ...fieldProps
-}) => {
+// type === 'object' || 'wrapper'
+const ObjectField: FC<FieldProps> = ({ type, items, ui }) => {
+  if (!items) {
+    return null;
+  }
+
+  const children = Object.keys(items).map(item => {
+    let itemName = item;
+    if (type === 'object') {
+      itemName = `${name}.${item}`;
+    }
+
+    return <Field key={itemName} name={itemName} {...items[item]} />;
+  });
+
+  let props = {};
+  if (ui && typeof ui === 'object') {
+    const { widget, ...rest } = ui;
+    props = { ...rest };
+
+    if (isValidElement(widget)) {
+      return cloneElement(widget, {
+        ...props,
+        children,
+      });
+    } else {
+      const Comp = widget as any;
+      return <Comp {...props} >{children}</Comp>;
+    }
+
+  }
+
+  return <>{children}</>;
+};
+
+const ArrayField: FC<FieldProps> = ({ items, itemStyle, name, ui, getHelper, ...fullProps }) => {
+  if (!items) {
+    return null;
+  }
+
+  let props = {};
+  if (ui && typeof ui === 'object') {
+    props = { ...ui };
+  }
+
+  return (
+    <FormItem field={name} {...fullProps}>
+      <FieldArray
+        name={name}
+        render={(helper, formState) => {
+          if (getHelper && typeof getHelper === 'function') {
+            getHelper(helper);
+          }
+
+          return (
+            <section {...props}>
+              {get(formState.values, name).map((_: any, i: number) => (
+                <section key={`${name}.${i}`} style={itemStyle}>
+                  {Object.keys(items).map((item, j) => {
+                    return (
+                      <Field
+                        key={`${name}.${i}.${j}.${item}`}
+                        name={`${name}[${i}].${item}`}
+                        {...items[item]}
+                      />
+                    );
+                  })}
+                </section>
+              ))}
+            </section>
+          );
+        }}
+      />
+    </FormItem>
+  );
+};
+
+const Field: FC<FieldProps> = props => {
+  const {
+    type,
+    name,
+    hide,
+    reactiveFieldProps,
+    ui,
+    ...fieldProps
+  } = props;
+
+  let fullProps = fieldProps;
+
   const formApi = useFormApi();
   const formState = useFormState();
 
@@ -63,72 +141,15 @@ const Field: FC<FieldProps> = ({
   }
 
   if (reactiveFieldProps && typeof reactiveFieldProps === 'function') {
-    fieldProps = { ...fieldProps, ...reactiveFieldProps(formState, formApi) };
+    fullProps = { ...fullProps, ...reactiveFieldProps(formState, formApi) };
   }
 
-  if (type === 'object') {
-    if (!items) {
-      return null;
-    }
-
-    let props = {};
-    if (ui && typeof ui === 'object') {
-      props = { ...ui };
-    }
-
-    return (
-      <section {...props}>
-        {Object.keys(items).map(item => {
-          return <Field key={`${name}.${item}`} name={`${name}.${item}`} {...items[item]} />;
-        })}
-      </section>
-    );
+  if (type === 'object' || type === 'wrapper') {
+    return <ObjectField  {...Object.assign({}, props, fullProps)} />;
   }
 
   if (type === 'array' && !get(ui, 'widget')) {
-    if (!items) {
-      return null;
-    }
-
-    let props = {};
-    if (ui && typeof ui === 'object') {
-      props = { ...ui };
-    }
-
-    return (
-      <FormItem field={name} {...fieldProps}>
-        <FieldArray
-          name={name}
-          render={(helper, formState) => {
-            if (getHelper && typeof getHelper === 'function') {
-              getHelper(helper);
-            }
-
-            return (
-              <section {...props}>
-                {
-                  get(formState.values, name).map((_: any, i: number) => (
-                    <section key={`${name}.${i}`} style={itemStyle}>
-                      {
-                        Object.keys(items).map((item, j) => {
-                          return (
-                            <Field
-                              key={`${name}.${i}.${j}.${item}`}
-                              name={`${name}[${i}].${item}`}
-                              {...items[item]}
-                            />
-                          );
-                        })
-                      }
-                    </section>
-                  ))
-                }
-              </section>
-            );
-          }}
-        />
-      </FormItem>
-    );
+    return <ArrayField {...Object.assign({}, props, fullProps)} />;
   }
 
   let Comp = componentMap[type];
@@ -158,9 +179,8 @@ const Field: FC<FieldProps> = ({
     }
   }
 
-
   return (
-    <FormItem field={name} {...fieldProps}>
+    <FormItem field={name} {...fullProps}>
       {isValidElement(Comp) ? (
         cloneElement(Comp, widgetProps)
       ) : <Comp name={name} field={name} {...widgetProps} />}

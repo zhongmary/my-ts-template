@@ -48,47 +48,74 @@ const config: ISchema = {
         ],
       },
     },
-    'input': {
-      type: 'string',
-      label: 'Input',
-      required: true,
-      fieldWidth: 400,
-      validateOnBlur: true,
+    'wrap': {
+      type: 'wrapper',
       ui: {
-        placeholder: '请输入...',
-        format: (val: string) => val.replace(/[^\d]/, ''),
-        autocomplete: 'off',
+        widget: (props: any) => (<article {...props} />),
+        style: {
+          border: '1px solid #edeff5',
+          marginBottom: '30px',
+        },
       },
-    },
-    'number': {
-      type: 'number',
-      label: 'Number',
-      required: true,
-      fieldWidth: 400,
-      validateOnChange: true,
-      ui: {
-        placeholder: '请输入...',
-        autocomplete: 'off',
-      },
-    },
-    'textarea': {
-      type: 'string',
-      label: 'Textarea',
-      validateOnBlur: true,
-      required: true,
-      fieldWidth: 400,
-      validate: v => {
-        if (v.length === 0) {
-          return 'Textarea不能为空';
-        }
-        if (v.length > 200) {
-          return '不得超过200字';
-        }
-      },
-      ui: {
-        widget: TextArea,
-        placeholder: '请简单描述下...',
-        maxLength: 200,
+      items: {
+        'header': {
+          type: 'custom',
+          ui: {
+            widget: <header>Input</header>,
+            style: {
+              lineHeight: '36px',
+              borderBottom: '1px solid #edeff5',
+              backgroundColor: '#f4f5f9',
+              color: '#333',
+              textIndent: '20px',
+              marginBottom: '20px',
+              fontSize: '12px',
+            },
+          },
+        },
+        'input': {
+          type: 'string',
+          label: 'Input',
+          required: true,
+          fieldWidth: 400,
+          validateOnBlur: true,
+          ui: {
+            placeholder: '请输入...',
+            format: (val: string) => val.replace(/[^\d]/, ''),
+            autocomplete: 'off',
+          },
+        },
+        'number': {
+          type: 'number',
+          label: 'Number',
+          required: true,
+          fieldWidth: 400,
+          validateOnChange: true,
+          ui: {
+            placeholder: '请输入...',
+            autocomplete: 'off',
+          },
+        },
+        'textarea': {
+          type: 'string',
+          label: 'Textarea',
+          validateOnBlur: true,
+          required: true,
+          fieldWidth: 400,
+          validate: v => {
+            if (v.length === 0) {
+              return 'Textarea不能为空';
+            }
+            if (v.length > 200) {
+              return '不得超过200字';
+            }
+          },
+          ui: {
+            widget: TextArea,
+            placeholder: '请简单描述下...',
+            maxLength: 200,
+          },
+        },
       },
     },
     'tofu': {
