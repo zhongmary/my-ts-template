@@ -1,4 +1,4 @@
-import React, { FC, isValidElement, cloneElement, createElement } from 'react';
+import React, { FC, isValidElement, cloneElement } from 'react';
 import {
   Form,
   Input,
@@ -158,7 +158,7 @@ const Field: FC<FieldProps> = props => {
   if (ui) {
     const { widget, reactiveUIProps, ...res } = ui;
     widgetProps = res;
-    if (reactiveFieldProps && typeof reactiveUIProps === 'function') {
+    if (reactiveUIProps && typeof reactiveUIProps === 'function') {
       widgetProps = { ...widgetProps, ...reactiveUIProps(formState, formApi) };
     }
 
