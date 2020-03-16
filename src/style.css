@@ -2,17 +2,3 @@ body {
   padding: 0;
   margin: 0;
 }
-
-.wrap {
-  display: flex;
-  flex-direction: row;
-}
-
-.editor {
-  width: 50%;
-}
-
-.preview {
-  width: 50%;
-  padding: 20px;
-}
